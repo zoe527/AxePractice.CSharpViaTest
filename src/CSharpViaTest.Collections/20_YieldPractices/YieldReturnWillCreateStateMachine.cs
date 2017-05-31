@@ -12,7 +12,11 @@ namespace CSharpViaTest.Collections._20_YieldPractices
 
         public IEnumerable<string> GetStringTriangle(char character, int count)
         {
-            throw new NotImplementedException();
+            var str = "";
+            for(var i = 0; i < count; i++){
+                str += character.ToString();
+                yield return str;
+            }
         }
 
         #endregion
