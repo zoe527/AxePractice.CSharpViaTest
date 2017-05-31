@@ -17,7 +17,14 @@ namespace CSharpViaTest.Collections._30_MapReducePractices
 
         static int CountNumberOfWords(IEnumerable<Stream> streams)
         {
-            throw new NotImplementedException();
+            var sum = 0;
+            foreach(var stream in streams){
+                var stringReader = new StreamReader(stream);
+                var str = stringReader.ReadToEnd().Split(' ');
+                sum += str.Length - 1;
+            }
+
+            return sum;
         }
 
         #endregion

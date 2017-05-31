@@ -13,7 +13,17 @@ namespace CSharpViaTest.Collections._30_MapReducePractices
 
         static IDictionary<string, ISet<T>> Combine<T>(IDictionary<string, ISet<T>> first, IDictionary<string, ISet<T>> second)
         {
-            throw new NotImplementedException();
+            var dictionary = new Dictionary<string, ISet<T>>(StringComparer.OrdinalIgnoreCase);
+            var data = first.Union(second);
+            foreach(var item in data){
+                if(dictionary.ContainsKey(item.Key)){
+                    dictionary[item.Key].UnionWith(item.Value);
+                }else{
+                    dictionary.Add(item.Key, item.Value);
+                }
+            }
+
+            return dictionary;
         }
 
         #endregion
@@ -30,6 +40,7 @@ namespace CSharpViaTest.Collections._30_MapReducePractices
 
             var second = new Dictionary<string, ISet<int>>
             {
+                {"Nancy", new HashSet<int> {1, 2}},
                 {"NANCY", new HashSet<int> {1, 8}},
                 {"Sofia", new HashSet<int> {2, 9}}
             };
