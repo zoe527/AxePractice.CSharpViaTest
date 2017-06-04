@@ -13,17 +13,16 @@ namespace CSharpViaTest.Collections._30_MapReducePractices
 
         static IDictionary<string, ISet<T>> Combine<T>(IDictionary<string, ISet<T>> first, IDictionary<string, ISet<T>> second)
         {
-            var dictionary = new Dictionary<string, ISet<T>>(StringComparer.OrdinalIgnoreCase);
-            var data = first.Union(second);
-            foreach(var item in data){
-                if(dictionary.ContainsKey(item.Key)){
-                    dictionary[item.Key].UnionWith(item.Value);
-                }else{
-                    dictionary.Add(item.Key, item.Value);
-                }
-            }
-
-            return dictionary;
+            return first.Union(second)
+                    .Aggregate(new Dictionary<string, ISet<T>>(StringComparer.OrdinalIgnoreCase),
+                    (dictionary, item) =>{
+                        if(dictionary.ContainsKey(item.Key)){
+                            dictionary[item.Key].UnionWith(item.Value);
+                        }else{
+                            dictionary.Add(item.Key, item.Value);
+                        }
+                        return dictionary;
+                    });
         }
 
         #endregion
@@ -49,7 +48,7 @@ namespace CSharpViaTest.Collections._30_MapReducePractices
             
             Assert.Equal(3, result.Count);
             Assert.Equal(new [] {1, 2, 3, 4, 8}, result["nancy"].OrderBy(item => item));
-            Assert.Equal(new [] {1, 2}, result["rebecca"].OrderBy(item => item));
+            Assert.Equal(new [] {1, 2}, result["ReBecca"].OrderBy(item => item));
             Assert.Equal(new [] {2, 9}, result["sofia"].OrderBy(item => item));
         }
     }
