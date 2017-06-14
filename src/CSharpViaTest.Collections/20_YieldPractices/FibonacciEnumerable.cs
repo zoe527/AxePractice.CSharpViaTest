@@ -34,13 +34,10 @@ namespace CSharpViaTest.Collections._20_YieldPractices
 
         static IEnumerable<long> GetFibonacciIntegers()
         {
-            long current = 1L;
-            long next = 1;
-
-            while(true){
-                yield return current;
-                var nextCurrent = current + next;
-                current = next;
+            for(int i = 0,  pre = 1, next = 1; ; i++){
+                yield return pre;
+                var nextCurrent = pre + next;
+                pre = next;
                 next = nextCurrent;
             }
         }
