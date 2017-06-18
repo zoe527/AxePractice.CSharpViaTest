@@ -30,9 +30,10 @@ namespace CSharpViaTest.Collections._30_MapReducePractices
     {
         #region Please modifies the code to pass the test
 
+    //If I replace union with concat, it will still work, why??
         static IDictionary<string, ISet<T>> Combine<T>(IDictionary<string, ISet<T>> first, IDictionary<string, ISet<T>> second)
         {
-            return first.Union(second)
+            return first.Concat(second)
                     .Aggregate(new Dictionary<string, ISet<T>>(StringComparer.OrdinalIgnoreCase),
                     (dictionary, item) =>{
                         if(dictionary.ContainsKey(item.Key)){
