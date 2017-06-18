@@ -76,22 +76,21 @@ namespace CSharpViaTest.Collections._10_EnumerablePractices
 
             public bool MoveNext()
             {
-                if (!enumerator.MoveNext()) return false;
-                if (hashSet.Add(enumerator.Current))
-                {
-                    Current = enumerator.Current;
-                    return true;
+               while(enumerator.MoveNext()){
+                   if(!hashSet.Contains(enumerator.Current)){
+                        hashSet.Add(enumerator.Current);
+                        return true;
+                   }
                 }
-
-                return MoveNext();
+                return false;
             }
 
             public void Reset()
             {
-                throw new NotImplementedException();
+               enumerator.Reset();
             }
 
-            public TSource Current { get; private set; }
+            public TSource Current => enumerator.Current;
 
             object IEnumerator.Current => Current;
 
