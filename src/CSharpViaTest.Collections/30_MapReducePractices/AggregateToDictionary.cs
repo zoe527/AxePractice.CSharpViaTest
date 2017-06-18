@@ -36,7 +36,22 @@ namespace CSharpViaTest.Collections._30_MapReducePractices
             IEqualityComparer<TKey> comparer = null,
             bool overwriteDuplicated = false)
         {
-            throw new NotImplementedException();
+            if(source == null || keySelector == null) throw new ArgumentNullException(nameof(source));
+
+            return source.Aggregate(new Dictionary<TKey, TValue>(comparer), (dictionary, item) => {
+                var key = keySelector(item);
+                var value = valueSelector(item);
+
+                if(dictionary.ContainsKey(key)){
+                    if(overwriteDuplicated){
+                        dictionary[key] = value;
+                    }
+                }else{
+                    dictionary.Add(key, value);
+                }
+
+                return dictionary;
+            });
         }
         
         #endregion
