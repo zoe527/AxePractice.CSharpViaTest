@@ -28,16 +28,19 @@ namespace CSharpViaTest.Collections._20_YieldPractices
     {
         #region Please modifies the code to pass the test
 
+        //I find that it will throw exception when I extract method, if not,will not throw. I'm not sure why?
         public static IEnumerable<TResult> MyCast<TResult>(this IEnumerable source)
         {
-            if(source == null) throw new ArgumentNullException();
+            if(source == null) throw new ArgumentNullException(nameof(source));
 
+            return MyCastEnumerator<TResult>(source);
+        }
+
+        static IEnumerable<TResult> MyCastEnumerator<TResult>(IEnumerable source)
+        {
             var enumberator = source.GetEnumerator();
             while(enumberator.MoveNext()){
                 var current = enumberator.Current;
-                var isNullable = typeof(TResult).Equals(typeof(Nullable));
-
-                if( !isNullable && current == null) throw new NullReferenceException();
                 yield return (TResult)current;
             }
         }
@@ -119,7 +122,7 @@ namespace CSharpViaTest.Collections._20_YieldPractices
             Assert.Throws<InvalidCastException>(() => MyCast.ToList());
         }
 
-        [Fact]//f
+        [Fact]
         public void NullableIntFromAppropriateObjectsIncludingNull()
         {
             int? i = 10;
@@ -168,7 +171,7 @@ namespace CSharpViaTest.Collections._20_YieldPractices
             TestCastThrow<long>(9L);
         }
 
-        [Fact]//f
+        [Fact]
         public void CastToString()
         {
             object[] source = { "Test1", "4.5", null, "Test2" };
@@ -177,7 +180,7 @@ namespace CSharpViaTest.Collections._20_YieldPractices
             Assert.Equal(expected, source.MyCast<string>());
         }
 
-        [Fact]//f
+        [Fact]
         public void CastToStringRunOnce()
         {
             object[] source = { "Test1", "4.5", null, "Test2" };
@@ -210,7 +213,7 @@ namespace CSharpViaTest.Collections._20_YieldPractices
             Assert.Throws<InvalidCastException>(() => MyCast.ToList());
         }
 
-        [Fact]//f
+        [Fact]
         public void NullableIntFromNullsAndInts()
         {
             object[] source = { 3, null, 5, -4, 0, null, 9 };
