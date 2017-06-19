@@ -31,9 +31,8 @@ namespace CSharpViaTest.Collections._20_YieldPractices
 
         public IEnumerable<string> GetStringTriangle(char character, int count)
         {
-            var str = new StringBuilder("");
             for( int i = 0; i < count; i ++ ){
-                yield return str.Append('*').ToString();
+                yield return new string(character, i+1);
             }
         }
 
