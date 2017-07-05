@@ -34,7 +34,7 @@ namespace CSharpViaTest.OtherBCLs.HandleReflections
         {
             if(value == null) throw new ArgumentNullException();
             Type type = typeof(T);
-            if(!type.IsEnum) throw new NotSupportedException();
+            if(!type.GetTypeInfo().IsEnum) throw new NotSupportedException();
 
             var fieldInfo = type.GetFields(BindingFlags.Static | BindingFlags.Public).Single(s => s.Name == value.ToString());
             var myEnumDescriptionAttributes = fieldInfo.GetCustomAttributes<MyEnumDescriptionAttribute>().ToList();
