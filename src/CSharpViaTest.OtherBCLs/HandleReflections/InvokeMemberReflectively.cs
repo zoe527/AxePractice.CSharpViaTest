@@ -56,7 +56,7 @@ namespace CSharpViaTest.OtherBCLs.HandleReflections
             if(instance == null) throw new ArgumentNullException(nameof(instance));
             if(propertyName == null) throw new ArgumentNullException(nameof(propertyName));
             var propteryInfo = instance.GetType().GetProperty(propertyName);
-            if(propteryInfo == null || propteryInfo.SetMethod == null || propteryInfo.SetMethod.IsPrivate) throw new InvalidOperationException();
+            if(propteryInfo == null || propteryInfo.GetSetMethod() == null) throw new InvalidOperationException();
             propteryInfo.SetValue(instance, value);
         }
 
