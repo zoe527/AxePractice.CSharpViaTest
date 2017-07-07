@@ -44,17 +44,35 @@ namespace CSharpViaTest.OtherBCLs.HandleReflections
         
         static object InvokeMethod(object instance, string methodName, params object[] args)
         {
-            throw new NotImplementedException();
+           if(instance == null) throw new ArgumentNullException(nameof(instance));
+           if(methodName == null) throw new ArgumentNullException(nameof(methodName));
+           var methodInfo = instance.GetType().GetMethod(methodName);
+           if(methodInfo == null) throw new InvalidOperationException();
+           return methodInfo.Invoke(instance, args);
         }
 
         static void SetProperty(object instance, string propertyName, object value)
         {
-            throw new NotImplementedException();
+            if(instance == null) throw new ArgumentNullException(nameof(instance));
+            if(propertyName == null) throw new ArgumentNullException(nameof(propertyName));
+            var propteryInfo = instance.GetType().GetProperty(propertyName);
+            if(propteryInfo == null || propteryInfo.SetMethod == null || propteryInfo.SetMethod.IsPrivate) throw new InvalidOperationException();
+            propteryInfo.SetValue(instance, value);
         }
 
         static object GetProperty(object instance, string propertyName)
         {
-            throw new NotImplementedException();
+            if(instance == null) throw new ArgumentNullException(nameof(instance));
+            if(propertyName == null) throw new ArgumentNullException(nameof(propertyName));
+            var propteryInfo = instance.GetType().GetProperty(propertyName);
+            if(propteryInfo == null) throw new InvalidOperationException();
+            Object obj;
+            try{
+                obj = propteryInfo.GetValue(instance);
+            }catch(Exception e){
+                throw e.InnerException;
+            }
+            return obj;
         }
 
         #endregion
